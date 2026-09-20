@@ -316,6 +316,7 @@ void DebugPrintHeader (cups_page_header2_t* pHeader)
 // rearrange (compress) rows in pBuf, discarding tails of them
 static inline unsigned compress_buffer(unsigned char *pBuf, unsigned iSize,
                          unsigned int iWideStride, unsigned int iStride) {
+  const unsigned char *pStart = pBuf;
   const unsigned char *pEnd = pBuf + iSize;
   unsigned char *pTarget = pBuf;
   while (pBuf < pEnd) {
@@ -324,7 +325,7 @@ static inline unsigned compress_buffer(unsigned char *pBuf, unsigned iSize,
     pTarget += iBytes;
     pBuf += iWideStride;
   }
-  return min(iSize, pTarget - pBuf);
+  return min(iSize, (unsigned)(pTarget - pStart));
 }
 
 // returns -1 if whole line iz filled by zeros. Otherwise 0.
